@@ -8,8 +8,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-alembic.ini 
-alembic/
 build/sudo apt install python3.10-distutils
 
 files/
