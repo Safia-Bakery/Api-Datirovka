@@ -10,3 +10,20 @@ from uuid import UUID
 class Update_status(BaseModel):
     id:UUID
     status: Optional[int] = 1
+
+
+class GetProducts(BaseModel):
+    id:UUID
+    name:str
+    num:Optional[str]=None
+    code:Optional[str]=None
+    product_type:str
+    price:Optional[float]=None
+    parent_id:Optional[UUID]=None
+    main_unit:Optional[str]=None
+    total_price:Optional[float]=None
+    amount_left:Optional[float]=None
+    status:Optional[int]=None
+
+    class config:
+        orm_mode = True

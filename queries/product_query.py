@@ -65,3 +65,8 @@ def update_group(db:Session,id:UUID,status):
     db.commit()
     db.refresh(item)
     return item
+
+
+def filter_products(db:Session,name:str):
+    item = db.query(products.Products).filter(products.Products.name.like(f"%{name}%")).all()
+    return item
