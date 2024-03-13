@@ -9,6 +9,7 @@ from datetime import datetime
 from uuid import UUID
 from sqlalchemy import or_, and_, Date, cast, Integer
 from sqlalchemy.exc import SQLAlchemyError
+from schemas import product_schema
 
 
 def create_product(db:Session,id:UUID,name:str,num:str,code:str,product_type:str,price:float,parent_id:Optional[str],main_unit:str,total_price:float,amount_left:float):
@@ -52,9 +53,12 @@ def get_child_groups(db:Session,parent_id:Optional[UUID]=None):
     return db.query(products.Groups).filter(products.Groups.parent_id == parent_id).filter(products.Groups.status==1).all() 
 
 
-def update_product(db:Session,id:UUID,status):
+def update_product(db:Session,form_data:product_schema.Update_status):
     item = db.query(products.Products).filter(products.Products.id == id).first()
-    item.status = status
+    if form_data.status is not None:
+        item.status = form_data.status
+    if form_data.validity is not None:
+        item.validity = form_data.validity
     db.commit()
     db.refresh(item)
     return item

@@ -9,7 +9,8 @@ from uuid import UUID
 
 class Update_status(BaseModel):
     id:UUID
-    status: Optional[int] = 1
+    status: Optional[int] = None
+    validity:Optional[int]=None
 
 
 class GetProducts(BaseModel):

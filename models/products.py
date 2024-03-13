@@ -51,7 +51,8 @@ class Products(Base):
     total_price =  Column(Float,nullable=True)
     amount_left =  Column(Float,nullable=True)
     status = Column(Integer,default=1)
-
+    description = Column(String,nullable=True)
+    validity = Column(Integer,nullable=True)
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
