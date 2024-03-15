@@ -11,6 +11,7 @@ class Update_status(BaseModel):
     id:UUID
     status: Optional[int] = None
     validity:Optional[int]=None
+    description:Optional[int]=None
 
 
 class GetProducts(BaseModel):

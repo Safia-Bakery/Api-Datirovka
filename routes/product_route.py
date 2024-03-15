@@ -39,15 +39,14 @@ async def synch_products(db:Session=Depends(get_db),current_user: user_schema.Us
     for i in products:
 
         if i['type'] in ['GOODS','DISH']:
-            if not product_query.get_product(db,id=i["id"]):
+            #if not product_query.get_product(db,id=i["id"]):
                 product_query.create_product(db,id=i["id"],name=i["name"],num=i["num"],code=i["code"],product_type=i["type"],price=i["defaultSalePrice"],parent_id=i["parent"],main_unit=i["mainUnit"],total_price=i["estimatedPurchasePrice"],amount_left=None)
     del products
     groups = getgroups(iiko_key)
     for i in groups:
         
         if product_query.get_product_parent(db,parent_id=i["id"]):
-            if not product_query.get_group(db,id=i["id"]):
-
+           #if not product_query.get_group(db,id=i["id"]):
                 product_query.create_group(db,id=i["id"],name=i["name"],description=i["description"],num=i["num"],code=i["code"],parent_id=i["parent"],category=i["category"])
     del groups
     return {"message":"Synch products with iiko"}
