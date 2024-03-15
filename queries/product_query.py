@@ -46,11 +46,17 @@ def get_product_parent(db:Session,parent_id:UUID):
     return db.query(products.Products).filter(products.Products.parent_id == parent_id).first()
 
 
-def get_child_products(db:Session,parent_id:Optional[UUID]=None):
-    return db.query(products.Products).filter(products.Products.parent_id == parent_id).filter(products.Products.status==1).all()
+def get_child_products(db:Session,name,parent_id:Optional[UUID]=None):
+    item = db.query(products.Products).filter(products.Products.parent_id == parent_id).filter(products.Products.status==1)
+    if name is not None:
+        item = item.filter(products.Products.name.ilike(f"%{name}%"))
+    return item.all()
 
-def get_child_groups(db:Session,parent_id:Optional[UUID]=None):
-    return db.query(products.Groups).filter(products.Groups.parent_id == parent_id).filter(products.Groups.status==1).all() 
+def get_child_groups(db:Session,name,parent_id:Optional[UUID]=None):
+    item = db.query(products.Groups).filter(products.Groups.parent_id == parent_id).filter(products.Groups.status==1)
+    if name is not None:
+        item = item.filter(products.Products.name.ilike(f"%{name}%"))
+    return item.all()
 
 
 def update_product(db:Session,form_data:product_schema.Update_status):

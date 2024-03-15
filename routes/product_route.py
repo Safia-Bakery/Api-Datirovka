@@ -54,9 +54,9 @@ async def synch_products(db:Session=Depends(get_db),current_user: user_schema.Us
 
 
 @product_router.get("/v1/products", summary="Get all products",tags=["Product"])
-async def get_all_products(parent_id:Optional[UUID]=None,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
-    products = product_query.get_child_products(db,parent_id=parent_id)
-    groups = product_query.get_child_groups(db,parent_id=parent_id)
+async def get_all_products(parent_id:Optional[UUID]=None,name:Optional[str]=None,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+    products = product_query.get_child_products(db,parent_id=parent_id,name=name)
+    groups = product_query.get_child_groups(db,parent_id=parent_id,name=name)
     return {"products":products,"groups":groups}
 
 
@@ -72,9 +72,9 @@ async def update_group_status(form_data:product_schema.Update_status,db:Session=
 
 
 
-@product_router.get('/v1/products',response_model=Page[product_schema.GetProducts],summary="Filter products",tags=["Product"])
-async def filter_products(name:str,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
-    products = product_query.filter_products(db,name=name)
-    return paginate(products)
+#@product_router.get('/v1/products/filter',response_model=Page[product_schema.GetProducts],summary="Filter products",tags=["Product"])
+#async def filter_products(name:str,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+#    products = product_query.filter_products(db,name=name)
+#    return paginate(products)
 
 
