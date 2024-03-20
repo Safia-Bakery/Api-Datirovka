@@ -26,6 +26,7 @@ class GetProducts(BaseModel):
     total_price:Optional[float]=None
     amount_left:Optional[float]=None
     status:Optional[int]=None
-
+    description:Optional[str]=None
+    validity :Optional[int]=None
     class config:
         orm_mode = True

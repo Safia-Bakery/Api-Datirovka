@@ -72,9 +72,12 @@ async def update_group_status(form_data:product_schema.Update_status,db:Session=
 
 
 
-#@product_router.get('/v1/products/filter',response_model=Page[product_schema.GetProducts],summary="Filter products",tags=["Product"])
-#async def filter_products(name:str,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
-#    products = product_query.filter_products(db,name=name)
-#    return paginate(products)
+@product_router.get('/v1/products/filter',response_model=Page[product_schema.GetProducts],summary="Filter products",tags=["Product"])
+async def filter_products(name:Optional[str]=None,type:Optional[str]=None,id:Optional[UUID]=None,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+    products = product_query.filter_products(db,name=name,type=type,id=id)
+    return paginate(products)
+
+
+
 
 

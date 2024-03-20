@@ -79,6 +79,13 @@ def update_group(db:Session,id:UUID,status):
     return item
 
 
-def filter_products(db:Session,name:str):
-    item = db.query(products.Products).filter(products.Products.name.like(f"%{name}%")).all()
-    return item
+def filter_products(db:Session,name,type,id):
+    item = db.query(products.Products)
+    if name is not None:
+        item = item.filter(products.Products.name.ilike(f"%{name}%"))   
+    if type is not None:
+        item = item.filter(products.Products.product_type == type)
+    if id is not None:
+        item = item.filter(products.Products.id == id)
+    item = item.filter(products.Products.status==1)
+    return item.all()
