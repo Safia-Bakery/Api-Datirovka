@@ -63,7 +63,7 @@ async def get_all_products(parent_id:Optional[UUID]=None,name:Optional[str]=None
 
 @product_router.put('/v1/products',summary="Update product status",tags=["Product"])
 async def update_product_status(form_data:product_schema.Update_status,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
-    return product_query.update_product(db,id=form_data.id,status=form_data.status)
+    return product_query.update_product(db,form_data=form_data)
 
 
 @product_router.put('/v1/groups',summary="Update group status",tags=["Product"])

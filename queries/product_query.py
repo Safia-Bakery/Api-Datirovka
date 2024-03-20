@@ -60,7 +60,7 @@ def get_child_groups(db:Session,name,parent_id:Optional[UUID]=None):
 
 
 def update_product(db:Session,form_data:product_schema.Update_status):
-    item = db.query(products.Products).filter(products.Products.id == id).first()
+    item = db.query(products.Products).filter(products.Products.id == form_data.id).first()
     if form_data.status is not None:
         item.status = form_data.status
     if form_data.validity is not None:
