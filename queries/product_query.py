@@ -67,6 +67,8 @@ def update_product(db:Session,form_data:product_schema.Update_status):
         item.validity = form_data.validity
     if form_data.description is not None:
         item.description = form_data.description
+    if form_data.qr is not None:
+        item.qr = form_data.qr
     db.commit()
     db.refresh(item)
     return item

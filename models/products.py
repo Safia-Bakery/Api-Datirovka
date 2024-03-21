@@ -55,6 +55,7 @@ class Products(Base):
     validity = Column(Integer,nullable=True)
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    qr = Column(String,nullable=True)
 
 
 

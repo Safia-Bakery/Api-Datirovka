@@ -12,6 +12,7 @@ class Update_status(BaseModel):
     status: Optional[int] = None
     validity:Optional[int]=None
     description:Optional[str]=None
+    qr:Optional[str]=None
 
 
 class GetProducts(BaseModel):
@@ -28,5 +29,6 @@ class GetProducts(BaseModel):
     status:Optional[int]=None
     description:Optional[str]=None
     validity :Optional[int]=None
+    qr:Optional[str]=None
     class config:
         orm_mode = True
