@@ -76,7 +76,8 @@ async def refresh(
 async def register(
     form_data: user_schema.UserCreate,
     db: Session = Depends(get_db)):
-    user = user_query.user_create(db=db, form_data=form_data)
+    user = user_query.user_create(db=db, form_data=form_data),
+    current_user: user_schema.UserBase = Depends(get_current_user)
     return user
 
 @user_router.get("/me", response_model=user_schema.UserBase, summary="Get current user",tags=["User"])
