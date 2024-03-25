@@ -6,6 +6,15 @@ from fastapi import Form
 from uuid import UUID
 
 
+class GetCategory(BaseModel):   
+    id:int
+    name:str    
+    class config:
+        orm_mode = True 
+
+
+
+
 
 class Update_status(BaseModel):
     id:UUID
@@ -13,6 +22,7 @@ class Update_status(BaseModel):
     validity:Optional[int]=None
     description:Optional[str]=None
     qr:Optional[str]=None
+    category_id:Optional[int]=None
 
 
 class GetProducts(BaseModel):
@@ -30,5 +40,24 @@ class GetProducts(BaseModel):
     description:Optional[str]=None
     validity :Optional[int]=None
     qr:Optional[str]=None
+    category_id:Optional[int]=None
+    category:Optional[GetCategory]=None
+    class config:
+        orm_mode = True
+
+
+
+
+class CreateCategory(BaseModel):
+    name:str
+    status:Optional[int]=1  
+    class config:
+        orm_mode = True 
+
+
+class UpdateCategory(BaseModel):    
+    id:int
+    name:Optional[str]=None
+    status:Optional[int]=1
     class config:
         orm_mode = True

@@ -69,6 +69,8 @@ def update_product(db:Session,form_data:product_schema.Update_status):
         item.description = form_data.description
     if form_data.qr is not None:
         item.qr = form_data.qr
+    if form_data.category_id is not None:
+        item.category_id = form_data.category_id
     db.commit()
     db.refresh(item)
     return item
@@ -81,7 +83,7 @@ def update_group(db:Session,id:UUID,status):
     return item
 
 
-def filter_products(db:Session,name,type,id):
+def filter_products(db:Session,name,type,id,category_id):
     item = db.query(products.Products)
     if name is not None:
         item = item.filter(products.Products.name.ilike(f"%{name}%"))   
@@ -89,5 +91,41 @@ def filter_products(db:Session,name,type,id):
         item = item.filter(products.Products.product_type == type)
     if id is not None:
         item = item.filter(products.Products.id == id)
+    if category_id is not None:
+        item = item.filter(products.Products.category_id == category_id)
     item = item.filter(products.Products.status==1)
+    return item.all()
+
+
+
+def create_category(db:Session,form_data:product_schema.CreateCategory):
+    item = products.Categories(name=form_data.name,status=form_data.status)
+    try:
+        db.add(item)
+        db.commit()
+        db.refresh(item)
+        return item
+    except SQLAlchemyError as e:
+        db.rollback()
+        return False
+
+def update_category(db:Session,form_data:product_schema.UpdateCategory):
+    item = db.query(products.Categories).filter(products.Categories.id == form_data.id).first()
+    if form_data.name is not None:
+        item.name = form_data.name
+    if form_data.status is not None:
+        item.status = form_data.status
+    db.commit()
+    db.refresh(item)
+    return item
+
+
+def filter_categories(db:Session,name,status,id):
+    item = db.query(products.Categories)
+    if name is not None:
+        item = item.filter(products.Categories.name.ilike(f"%{name}%"))   
+    if status is not None:
+        item = item.filter(products.Categories.status == status)
+    if id is not None:
+        item = item.filter(products.Categories.id == id)
     return item.all()

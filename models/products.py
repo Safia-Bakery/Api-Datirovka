@@ -56,7 +56,20 @@ class Products(Base):
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     qr = Column(String,nullable=True)
+    category_id = Column(BIGINT, ForeignKey("categories.id"),nullable=True)
+    category = relationship("Categories", back_populates="product")
 
 
+
+
+
+class Categories(Base):
+    __tablename__ = "categories"
+    id = Column(BIGINT, primary_key=True, index=True)
+    name = Column(String,nullable=True)
+    status = Column(Integer,default=1)
+    created_at = Column(DateTime(timezone=True), default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    product = relationship("Products", back_populates="category") 
 
 

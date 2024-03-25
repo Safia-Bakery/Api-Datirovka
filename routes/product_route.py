@@ -73,11 +73,27 @@ async def update_group_status(form_data:product_schema.Update_status,db:Session=
 
 
 @product_router.get('/v1/products/filter',response_model=Page[product_schema.GetProducts],summary="Filter products",tags=["Product"])
-async def filter_products(name:Optional[str]=None,type:Optional[str]=None,id:Optional[UUID]=None,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
-    products = product_query.filter_products(db,name=name,type=type,id=id)
+async def filter_products(name:Optional[str]=None,type:Optional[str]=None,id:Optional[UUID]=None,category_id:Optional[int]=None,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+    products = product_query.filter_products(db,name=name,type=type,id=id,category_id=category_id)
     return paginate(products)
 
 
+# -----Categories create
+
+@product_router.post('/v1/category',summary="Create category",tags=["Category"])
+async def create_category(form_data:product_schema.CreateCategory,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+    return product_query.create_category(db,form_data=form_data)
+
+# -----Categories update 
+
+@product_router.put('/v1/category',summary="Update category",tags=["Category"])
+async def update_category(form_data:product_schema.UpdateCategory,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+    return product_query.update_category(db,form_data=form_data)
 
 
+# -----Categories filter
 
+@product_router.get('/v1/category',response_model=Page[product_schema.GetCategory],summary="Filter categories",tags=["Category"])
+async def filter_categories(name:Optional[str]=None,id:Optional[int]=None,status:Optional[int]=None,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+    categories = product_query.filter_categories(db,name=name,id=id,status=status)
+    return paginate(categories)
