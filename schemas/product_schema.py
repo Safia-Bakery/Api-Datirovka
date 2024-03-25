@@ -9,6 +9,7 @@ from uuid import UUID
 class GetCategory(BaseModel):   
     id:int
     name:str    
+    status:Optional[int]=1
     class config:
         orm_mode = True 
 
