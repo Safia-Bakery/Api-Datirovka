@@ -24,6 +24,7 @@ class Update_status(BaseModel):
     description:Optional[str]=None
     qr:Optional[str]=None
     category_id:Optional[int]=None
+    name : Optional[str]=None
 
 
 class GetProducts(BaseModel):
