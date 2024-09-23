@@ -50,8 +50,7 @@ class GetProducts(BaseModel):
 
 class GetProductsDetail(BaseModel):
     id:UUID
-    name:str
-    product_type:str
+    name:Optional[str]=None
     validity :Optional[int]=None
 
 
@@ -75,7 +74,7 @@ class UpdateCategory(BaseModel):
 
 class GetCategoryFull(BaseModel):
     id:int
-    name:str
+    name:Optional[str]=None
     product:Optional[list[GetProductsDetail]] =[ ]
     class config:
         orm_mode = True
