@@ -52,7 +52,8 @@ class GetProductsDetail(BaseModel):
     id:UUID
     name:Optional[str]=None
     validity :Optional[int]=None
-
+    class config:
+        orm_mode = True
 
 
 class CreateCategory(BaseModel):
