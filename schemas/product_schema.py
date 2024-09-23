@@ -63,3 +63,13 @@ class UpdateCategory(BaseModel):
     status:Optional[int]=1
     class config:
         orm_mode = True
+
+
+
+
+class GetCategoryFull(BaseModel):
+    id:int
+    name:str
+    products:Optional[GetProducts] =[ ]
+    class config:
+        orm_mode = True

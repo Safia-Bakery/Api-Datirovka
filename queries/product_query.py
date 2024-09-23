@@ -131,3 +131,10 @@ def filter_categories(db:Session,name,status,id):
     if id is not None:
         item = item.filter(products.Categories.id == id)
     return item.all()
+
+
+
+def get_all_active_categories(db:Session):
+    item = db.query(products.Categories).filter(products.Categories.status==1)
+
+    return item.all()
