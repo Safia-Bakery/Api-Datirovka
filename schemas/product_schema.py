@@ -48,6 +48,12 @@ class GetProducts(BaseModel):
         orm_mode = True
 
 
+class GetProductsDetail(BaseModel):
+    id:UUID
+    name:str
+    product_type:str
+    validity :Optional[int]=None
+
 
 
 class CreateCategory(BaseModel):
