@@ -103,7 +103,7 @@ async def filter_categories(
                             name:Optional[str]=None,
                             db:Session=Depends(get_db),
                             current_user: user_schema.UserBase = Depends(get_current_user)):
-    categories = product_query.get_all_active_categories(db)
+    categories = product_query.get_all_active_categories(db,name=name)
     return categories
 
 
