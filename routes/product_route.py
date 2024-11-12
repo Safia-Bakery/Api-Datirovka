@@ -99,7 +99,10 @@ async def filter_categories(name:Optional[str]=None,id:Optional[int]=None,status
     return paginate(categories)
 
 @product_router.get('/v1/categories/products',response_model=list[product_schema.GetCategoryFull],tags=["Category"])
-async def filter_categories(db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+async def filter_categories(
+                            name:Optional[str]=None,
+                            db:Session=Depends(get_db),
+                            current_user: user_schema.UserBase = Depends(get_current_user)):
     categories = product_query.get_all_active_categories(db)
     return categories
 
