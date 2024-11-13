@@ -137,5 +137,11 @@ def filter_categories(db:Session,name,status,id):
 def get_all_active_categories(db:Session,name):
     item = db.query(products.Categories).join(products.Products)
     if name is not None:
-        item = item.filter(or_(products.Categories.name.ilike(f"%{name}%"),products.Products.name.ilike(f"%{name}%")))
-    return item.filter(products.Categories.status==1).all()
+        item = item.filter(products.Products.name.ilike(f"%{name}%"))
+    item = item.filter(products.Categories.status == 1).all()
+    #declare items products again
+    if name is not None:
+        for index,category in enumerate(item):
+            item[index].products = db.query(products.Products).filter(and_(products.Products.category_id == category.id, products.Products.name.ilike(f"%{name}%"))).all()
+
+    return item
