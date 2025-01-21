@@ -52,7 +52,7 @@ class UserCreate(BaseModel):
 
 class UserCategoryCreateRemove(BaseModel):
     user_id:int
-    category_id:int
+    category_id:list[int]
 
 
 

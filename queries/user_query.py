@@ -32,21 +32,26 @@ def user_create(db:Session,form_data:user_schema.UserCreate):
     return db_user
 
 
-def add_category_user(db:Session,form_data:user_schema.UserCategoryCreateRemove):
-    query = products.UserCategoryRelations(category_id=form_data.category_id,user_id=form_data.user_id)
-    db.add(query)
-    db.commit()
-    db.refresh(query)
-    return query
 
-def remove_category_user(db:Session,form_data:user_schema.UserCategoryCreateRemove):
+
+def remove_category_user(db:Session,user_id):
     query = db.query(products.UserCategoryRelations).filter(
-        products.UserCategoryRelations.category_id==form_data.category_id,
-                        products.UserCategoryRelations.user_id==form_data.user_id).first()
+
+                        products.UserCategoryRelations.user_id==user_id).all()
     if query:
         db.delete(query)
         db.commit()
     return query
+
+
+def add_category_user(db: Session, form_data: user_schema.UserCategoryCreateRemove):
+    remove_category_user(db=db,user_id=form_data.user_id)
+    for category in form_data.category_id:
+        query = products.UserCategoryRelations(category_id=category, user_id=form_data.user_id)
+        db.add(query)
+        db.commit()
+        db.refresh(query)
+        return query
 
 
 

@@ -111,19 +111,10 @@ async  def add_category_user(
     db:Session=Depends(get_db),
     current_user: user_schema.UserBase = Depends(get_current_user),
 ):
+
     query = user_query.add_category_user(db=db,form_data=form_data)
     return {'success':True}
 
-
-@user_router.delete("/users/category",tags=["User"])
-async  def add_delete_user(
-    form_data: user_schema.UserCategoryCreateRemove,
-    db:Session=Depends(get_db),
-    current_user: user_schema.UserBase = Depends(get_current_user),
-):
-
-    query = user_query.remove_category_user(db=db,form_data=form_data)
-    return {'success': True}
 
 
 
