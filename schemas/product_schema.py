@@ -76,6 +76,8 @@ class UpdateCategory(BaseModel):
 class GetCategoryFull(BaseModel):
     id:int
     name:Optional[str]=None
-    product:Optional[list[GetProductsDetail]] =[ ]
+    product:Optional[list[GetProductsDetail]] = None
     class config:
         orm_mode = True
+
+

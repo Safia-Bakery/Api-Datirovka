@@ -70,6 +70,19 @@ class Categories(Base):
     status = Column(Integer,default=1)
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    product = relationship("Products", back_populates="category") 
+    product = relationship("Products", back_populates="category")
+    user_cat = relationship('UserCategoryRelations',back_populates='user_category')
+
+
+
+
+
+class UserCategoryRelations(Base):
+    __tablename__ = 'user_category_relations'
+    id = Column(BIGINT, primary_key=True, index=True)
+    user_id = Column(BIGINT,ForeignKey('users.id'))
+    user = relationship('Users',back_populates='category')
+    category_id = Column(BIGINT,ForeignKey('categories.id'))
+    user_category = relationship('Categories',back_populates='user_cat')
 
 

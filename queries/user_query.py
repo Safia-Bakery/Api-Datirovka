@@ -11,7 +11,10 @@ from sqlalchemy import or_, and_, Date, cast
 from uuid import UUID
 from schemas import user_schema
 
+
 from models import user
+from models import products
+
 
 def hash_password(password):
     hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
@@ -27,6 +30,41 @@ def user_create(db:Session,form_data:user_schema.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def add_category_user(db:Session,form_data:user_schema.UserCategoryCreateRemove):
+    query = products.UserCategoryRelations(category_id=form_data.category_id,user_id=form_data.user_id)
+    db.add(query)
+    db.commit()
+    db.refresh(query)
+    return query
+
+def remove_category_user(db:Session,form_data:user_schema.UserCategoryCreateRemove):
+    query = db.query(products.UserCategoryRelations).filter(
+        products.UserCategoryRelations.category_id==form_data.category_id,
+                        products.UserCategoryRelations.user_id==form_data.user_id).first()
+    if query:
+        db.delete(query)
+        db.commit()
+    return query
+
+
+
+def get_users(db:Session,):
+    query = db.query(user.Users).all()
+    return query
+
+
+
+def get_one_user(db:Session,id):
+    query= db.query(user.Users).filter(user.Users.id==id).first()
+    return query
+
+
+def user_categories(db:Session,id):
+    query = db.query(products.Categories).join(products.Categories.user_cat).filter(products.UserCategoryRelations.user_id==id).all()
+    return query
+
 
 
 

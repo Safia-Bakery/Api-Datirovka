@@ -85,3 +85,63 @@ async def get_current_user(db:Session=Depends(get_db),current_user: user_schema.
     return current_user
 
 
+
+
+@user_router.get("/users",response_model=list[user_schema.UserList],tags=["User"])
+async  def get_users(db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
+    return user_query.get_users(db=db)
+
+@user_router.get("/users/{id}",response_model=user_schema.UserBase,tags=["User"])
+async  def get_one_user(
+        id:int,
+        db:Session=Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = user_query.get_one_user(db=db, id=id)
+    user_categories_query = user_query.user_categories(db=db,id=id)
+    query.categories = user_categories_query
+
+    return query
+
+
+
+@user_router.post("/users/category",tags=["User"])
+async  def add_category_user(
+    form_data: user_schema.UserCategoryCreateRemove,
+    db:Session=Depends(get_db),
+    current_user: user_schema.UserBase = Depends(get_current_user),
+):
+    query = user_query.add_category_user(db=db,form_data=form_data)
+    return {'success':True}
+
+
+@user_router.delete("/users/category",tags=["User"])
+async  def add_delete_user(
+    form_data: user_schema.UserCategoryCreateRemove,
+    db:Session=Depends(get_db),
+    current_user: user_schema.UserBase = Depends(get_current_user),
+):
+
+    query = user_query.remove_category_user(db=db,form_data=form_data)
+    return {'success': True}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
