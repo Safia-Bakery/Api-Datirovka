@@ -39,8 +39,9 @@ def remove_category_user(db:Session,user_id):
 
                         products.UserCategoryRelations.user_id==user_id).all()
     if query:
-        db.delete(query)
-        db.commit()
+        for item in query:
+            db.delete(item)
+    db.commit()
     return query
 
 
@@ -50,8 +51,7 @@ def add_category_user(db: Session, form_data: user_schema.UserCategoryCreateRemo
         query = products.UserCategoryRelations(category_id=category, user_id=form_data.user_id)
         db.add(query)
         db.commit()
-        db.refresh(query)
-        return query
+    return True
 
 
 
