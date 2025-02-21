@@ -38,9 +38,9 @@ class Groups(Base):
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-class Products(Base):   
+class Products(Base):
     __tablename__ = "products"
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True,default=uuid.uuid4)
     name = Column(String, index=True,nullable=True  )
     num = Column(String,nullable=True)
     code = Column(String,nullable=True)
@@ -58,7 +58,7 @@ class Products(Base):
     qr = Column(String,nullable=True)
     category_id = Column(BIGINT, ForeignKey("categories.id"),nullable=True)
     category = relationship("Categories", back_populates="product")
-
+    is_returnable = Column(Integer,nullable=True)
 
 
 
@@ -68,6 +68,7 @@ class Categories(Base):
     id = Column(BIGINT, primary_key=True, index=True)
     name = Column(String,nullable=True)
     status = Column(Integer,default=1)
+    is_factory = Column(Integer,nullable=True)
     created_at = Column(DateTime(timezone=True), default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     product = relationship("Products", back_populates="category")

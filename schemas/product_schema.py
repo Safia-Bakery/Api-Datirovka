@@ -72,6 +72,14 @@ class UpdateCategory(BaseModel):
 
 
 
+class UpdateFactoryCategory(BaseModel):
+    name:Optional[str]=None
+    status:Optional[int]=1
+    class config:
+        orm_mode = True
+
+
+
 
 class GetCategoryFull(BaseModel):
     id:int
@@ -79,5 +87,35 @@ class GetCategoryFull(BaseModel):
     product:Optional[list[GetProductsDetail]] = None
     class config:
         orm_mode = True
+
+
+
+
+
+class CreateFactoryProduct(BaseModel):
+    name:str
+    validity : int
+    is_returnable:Optional[int]=None
+
+
+
+class UpdateFactoryProduct(BaseModel):
+    name:Optional[str]=None
+    validity:Optional[int]=None
+    is_returnable:Optional[int]=None
+
+
+class GetFactoryProduct(BaseModel):
+    name:Optional[str]=None
+    validity:Optional[int]=None
+    is_returnable:Optional[int]=None
+    id: UUID
+    class config:
+        orm_mode = True
+
+
+
+
+
 
 

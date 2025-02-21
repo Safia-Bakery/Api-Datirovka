@@ -10,7 +10,14 @@ from uuid import UUID
 from sqlalchemy import or_, and_, Date, cast, Integer
 from sqlalchemy.exc import SQLAlchemyError
 from schemas import product_schema
-
+from schemas.product_schema import (
+CreateFactoryProduct,
+GetFactoryProduct,
+UpdateFactoryProduct,
+CreateCategory,
+UpdateCategory,
+UpdateFactoryCategory
+)
 
 def create_product(db:Session,id:UUID,name:str,num:str,code:str,product_type:str,price:float,parent_id:Optional[str],main_unit:str,total_price:float,amount_left:float):
     item = products.Products(id=id,name=name,num=num,code=code,product_type=product_type,price=price,parent_id=parent_id,main_unit=main_unit,total_price=total_price,amount_left=amount_left)
@@ -130,7 +137,7 @@ def filter_categories(db:Session,name,status,id):
         item = item.filter(products.Categories.status == status)
     if id is not None:
         item = item.filter(products.Categories.id == id)
-    return item.all()
+    return item.filter(products.Categories.is_factory!=1).all()
 
 
 
@@ -144,6 +151,82 @@ def get_all_active_categories(db:Session,name,current_user_id):
         for index,category in enumerate(item):
             item[index].product = db.query(products.Products).filter(and_(products.Products.category_id == category.id, products.Products.name.ilike(f"%{name}%"))).all()
     return item
+
+
+
+def create_factory_product(db:Session,form_data:CreateFactoryProduct):
+    query = products.Products(name=form_data.name,validity=form_data.validity,is_returnable=form_data.is_returnable)
+    db.add(query)
+    db.commit()
+    db.refresh(query)
+    return query
+
+
+def update_factory_product(db:Session,form_data:UpdateFactoryProduct,id):
+    query = db.query(products.Products).filter(products.Products.id==id).first()
+    if query:
+        query.name=form_data.name
+        query.is_returnable= form_data.is_returnable
+        query.validity=form_data.validity
+        db.commit()
+        db.refresh(query)
+
+    return query
+
+def get_factory_products(db:Session,name:Optional[str]=None,category_id:Optional[int]=None):
+    query = db.query(products.Products)
+    if name is not None:
+        query = query.filter(products.Products.name.ilike(f"%{name}%"))
+    if category_id is not None:
+        query = query.filter(products.Products.category_id==category_id)
+
+    return query.all()
+
+
+def get_factory_product(db:Session,id):
+    query = db.query(products.Products).filter(products.Products.id==id).first()
+    return query
+
+
+def create_factory_category(db:Session,form_data:CreateCategory):
+    query = products.Categories(
+        name=form_data.name,
+        status=form_data.status,
+        is_factory=1
+    )
+    db.add(query)
+    db.commit()
+    db.refresh(query)
+
+
+def update_factory_category(db:Session,form_data:UpdateFactoryCategory,id):
+    query = db.query(products.Categories).filter(products.Categories.id==id).first()
+    if query:
+        query.name=form_data.name
+        query.status=form_data.status
+        db.commit()
+        db.refresh(query)
+    return query
+
+
+
+def get_factory_categories(db:Session):
+    query = db.query(products.Categories).filter(products.Categories.is_factory==1).all()
+    return query
+
+
+def get_one_category(db:Session,id):
+    query = db.query(products.Categories).filter(products.Categories.id==id).first()
+    return query
+
+
+
+
+
+
+
+
+
 
 
 

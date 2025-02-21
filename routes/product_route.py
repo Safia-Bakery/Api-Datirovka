@@ -107,3 +107,94 @@ async def filter_categories(
     return categories
 
 
+
+
+@product_router.post('/factory/products',response_model=product_schema.GetFactoryProduct,tags=['Factory'])
+async  def create_factory_products(
+            form_data:product_schema.CreateFactoryProduct,
+            db:Session=Depends(get_db),
+            current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.create_factory_product(db=db,form_data=form_data)
+    return query
+
+
+@product_router.put('/factory/products',response_model=product_schema.GetFactoryProduct,tags=['Factory'])
+async  def update_factory_product(
+        id:UUID,
+        form_data:product_schema.UpdateFactoryProduct,
+        db:Session=Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.update_factory_product(db=db,id=id,form_data=form_data)
+    return query
+
+
+@product_router.get('/factory/products/{id}',response_model=product_schema.GetFactoryProduct,tags=['Factory'])
+async  def get_factory_product(
+        id:UUID,
+        db: Session = Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.get_factory_product(db=db,id=id)
+    return query
+
+
+@product_router.get('/factory/products/{id}',response_model=list[product_schema.GetFactoryProduct],tags=['Factory'])
+async  def get_factory_products(
+        category_id:Optional[int]=None,
+        name:Optional[str]=None,
+        db: Session = Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.get_factory_products(db=db,name=name,category_id=category_id)
+    return query
+
+
+
+@product_router.post('/factory/category',response_model=product_schema.GetCategory,tags=['Factory'])
+async  def create_factory_categories(
+        form_data:product_schema.CreateCategory,
+        db: Session = Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.create_factory_category(form_data=form_data,db=db)
+    return query
+
+@product_router.put('/factory/category',response_model=product_schema.GetCategory,tags=['Factory'])
+async  def update_factory_categories(
+        id:int,
+        form_data:product_schema.UpdateFactoryCategory,
+        db: Session = Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.update_factory_category(db=db,form_data=form_data,id=id)
+    return query
+
+
+
+@product_router.get('/factory/category/{id}',response_model=product_schema.GetCategory,tags=['Factory'])
+async def get_one_category(
+        id:int,
+        db: Session = Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.get_one_category(db=db,id=id)
+    return query
+
+
+@product_router.get('/factory/category',response_model=list[product_schema.GetCategory],tags=['Factory'])
+async  def get_categories_factory(
+        db: Session = Depends(get_db),
+        current_user: user_schema.UserBase = Depends(get_current_user)
+):
+    query = product_query.get_factory_categories(db=db)
+    return query
+
+
+
+
+
+
+
+
