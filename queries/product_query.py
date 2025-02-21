@@ -137,7 +137,7 @@ def filter_categories(db:Session,name,status,id):
         item = item.filter(products.Categories.status == status)
     if id is not None:
         item = item.filter(products.Categories.id == id)
-    return item.filter(products.Categories.is_factory!=1).all()
+    return item.filter(or_(products.Categories.is_factory != 1, products.Categories.is_factory == None)).all()
 
 
 
