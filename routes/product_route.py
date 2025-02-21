@@ -140,9 +140,9 @@ async  def get_factory_product(
     return query
 
 
-@product_router.get('/factory/products/{id}',response_model=list[product_schema.GetFactoryProduct],tags=['Factory'])
+@product_router.get('/factory/category/products',response_model=list[product_schema.GetFactoryProduct],tags=['Factory'])
 async  def get_factory_products(
-        category_id:Optional[int]=None,
+        category_id:int,
         name:Optional[str]=None,
         db: Session = Depends(get_db),
         current_user: user_schema.UserBase = Depends(get_current_user)

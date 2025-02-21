@@ -41,7 +41,7 @@ class Groups(Base):
 class Products(Base):
     __tablename__ = "products"
     id = Column(UUID(as_uuid=True), primary_key=True, index=True,default=uuid.uuid4)
-    name = Column(String, index=True,nullable=True  )
+    name = Column(String, index=True,nullable=True)
     num = Column(String,nullable=True)
     code = Column(String,nullable=True)
     product_type = Column(String,nullable=True)

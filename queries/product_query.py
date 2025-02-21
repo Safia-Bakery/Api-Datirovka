@@ -155,7 +155,7 @@ def get_all_active_categories(db:Session,name,current_user_id):
 
 
 def create_factory_product(db:Session,form_data:CreateFactoryProduct):
-    query = products.Products(name=form_data.name,validity=form_data.validity,is_returnable=form_data.is_returnable)
+    query = products.Products(name=form_data.name,validity=form_data.validity,is_returnable=form_data.is_returnable,category_id=form_data.category_id)
     db.add(query)
     db.commit()
     db.refresh(query)
@@ -192,11 +192,14 @@ def create_factory_category(db:Session,form_data:CreateCategory):
     query = products.Categories(
         name=form_data.name,
         status=form_data.status,
-        is_factory=1
+        is_factory=1,
+
     )
     db.add(query)
     db.commit()
     db.refresh(query)
+
+    return query
 
 
 def update_factory_category(db:Session,form_data:UpdateFactoryCategory,id):

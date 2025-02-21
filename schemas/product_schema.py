@@ -96,6 +96,7 @@ class CreateFactoryProduct(BaseModel):
     name:str
     validity : int
     is_returnable:Optional[int]=None
+    category_id:int
 
 
 
