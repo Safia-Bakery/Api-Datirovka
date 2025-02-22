@@ -44,6 +44,7 @@ class GetProducts(BaseModel):
     qr:Optional[str]=None
     category_id:Optional[int]=None
     category:Optional[GetCategory]=None
+    is_returnable: Optional[int]=None
     class config:
         orm_mode = True
 
