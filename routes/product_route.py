@@ -105,7 +105,7 @@ async def filter_categories_v2(name:Optional[str]=None,id:Optional[int]=None,sta
     if current_user.id==10:
         categories = product_query.filter_categories_v2_factory(db,name=name,id=id,status=1)
     else:
-        categories = product_query.filter_categories(db, name=name, id=id, status=status)
+        categories = product_query.filter_categories(db, name=name, id=id, status=1)
     return paginate(categories)
 
 
