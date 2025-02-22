@@ -141,6 +141,19 @@ def filter_categories(db:Session,name,status,id):
 
 
 
+
+def filter_categories_v2_factory(db:Session,name,status,id):
+    item = db.query(products.Categories)
+    if name is not None:
+        item = item.filter(products.Categories.name.ilike(f"%{name}%"))
+    if status is not None:
+        item = item.filter(products.Categories.status == status)
+    if id is not None:
+        item = item.filter(products.Categories.id == id)
+    return item.filter(products.Categories.is_factory == 1).all()
+
+
+
 def get_all_active_categories(db:Session,name,current_user_id):
 
     item = db.query(products.Categories).join(products.Products)
