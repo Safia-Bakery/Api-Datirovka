@@ -32,7 +32,7 @@ class GetProducts(BaseModel):
     name:str
     num:Optional[str]=None
     code:Optional[str]=None
-    product_type:str
+    product_type:Optional[str]=' '
     price:Optional[float]=None
     parent_id:Optional[UUID]=None
     main_unit:Optional[str]=None
