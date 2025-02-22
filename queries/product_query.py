@@ -142,11 +142,15 @@ def filter_categories(db:Session,name,status,id):
 
 
 def get_all_active_categories(db:Session,name,current_user_id):
+
     item = db.query(products.Categories).join(products.Products)
+
     if name is not None:
         item = item.filter(products.Products.name.ilike(f"%{name}%"))
-    item = item.filter(products.Categories.status == 1).join(products.Categories.user_cat).filter(products.UserCategoryRelations.user_id==current_user_id).all()
-    #declare items products again
+    if current_user_id ==10:
+        item = item.filter(products.Categories.status == 1).filter(products.Categories.is_factory==1).all()
+    else:
+        item = item.filter(products.Categories.status == 1).join(products.Categories.user_cat).filter(products.UserCategoryRelations.user_id==current_user_id).all()
     if name is not None:
         for index,category in enumerate(item):
             item[index].product = db.query(products.Products).filter(and_(products.Products.category_id == category.id, products.Products.name.ilike(f"%{name}%"))).all()
