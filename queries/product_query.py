@@ -156,7 +156,7 @@ def filter_categories_v2_factory(db:Session,name,status,id):
 
 
 
-defget_all_active_categories(db:Session,name,current_user_id):
+def get_all_active_categories(db:Session,name,current_user_id):
 
     item = db.query(products.Categories).join(products.Products)
 
