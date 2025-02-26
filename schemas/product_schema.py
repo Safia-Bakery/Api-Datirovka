@@ -45,6 +45,7 @@ class GetProducts(BaseModel):
     category_id:Optional[int]=None
     category:Optional[GetCategory]=None
     is_returnable: Optional[int]=None
+    temperature: Optional[str] = None
     class config:
         orm_mode = True
 
@@ -53,6 +54,7 @@ class GetProductsDetail(BaseModel):
     id:UUID
     name:Optional[str]=None
     validity :Optional[int]=None
+    temperature:Optional[str]=None
     class config:
         orm_mode = True
 
@@ -98,6 +100,7 @@ class CreateFactoryProduct(BaseModel):
     validity : int
     is_returnable:Optional[int]=None
     category_id:int
+    temperature: Optional[str] = None
 
 
 
@@ -105,6 +108,7 @@ class UpdateFactoryProduct(BaseModel):
     name:Optional[str]=None
     validity:Optional[int]=None
     is_returnable:Optional[int]=None
+    temperature: Optional[str] = None
 
 
 class GetFactoryProduct(BaseModel):
@@ -112,6 +116,7 @@ class GetFactoryProduct(BaseModel):
     validity:Optional[int]=None
     is_returnable:Optional[int]=None
     id: UUID
+    temperature: Optional[str] = None
     class config:
         orm_mode = True
 

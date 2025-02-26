@@ -59,6 +59,9 @@ class Products(Base):
     category_id = Column(BIGINT, ForeignKey("categories.id"),nullable=True)
     category = relationship("Categories", back_populates="product")
     is_returnable = Column(Integer,nullable=True)
+    temperature = Column(String,nullable=True)
+
+
 
 
 
