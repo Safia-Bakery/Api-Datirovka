@@ -95,7 +95,7 @@ async def update_category(form_data:product_schema.UpdateCategory,db:Session=Dep
 
 @product_router.get('/v1/category',response_model=Page[product_schema.GetCategory],summary="Filter categories",tags=["Category"])
 async def filter_categories(name:Optional[str]=None,id:Optional[int]=None,status:Optional[int]=None,db:Session=Depends(get_db),current_user: user_schema.UserBase = Depends(get_current_user)):
-    categories = product_query.filter_categories(db,name=name,id=id,status=status)
+    categories = product_query.filter_categories(db,name=name,id=id,status=status,user_id=current_user.id)
     return paginate(categories)
 
 
