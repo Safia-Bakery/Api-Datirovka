@@ -138,7 +138,8 @@ def filter_categories(db:Session,name,status,id,user_id):
     if id is not None:
         item = item.filter(products.Categories.id == id)
     if user_id !=14:
-        item = item.join(products.Categories.user_cat).filter(
+        item = item.join(products.Categories.user_cat)
+        item = item.filter(
             products.UserCategoryRelations==user_id)
     return item.all()
 
@@ -175,7 +176,7 @@ def get_all_active_categories(db:Session,name,current_user_id):
 
 
 def create_factory_product(db:Session,form_data:CreateFactoryProduct):
-    query = products.Products(name=form_data.name,validity=form_data.validity,is_returnable=form_data.is_returnable,category_id=form_data.category_id)
+    query = products.Products(name=form_data.name,validity=form_data.validity,is_returnable=form_data.is_returnable,category_id=form_data.category_id,temperature=form_data.temperature)
     db.add(query)
     db.commit()
     db.refresh(query)
@@ -188,6 +189,7 @@ def update_factory_product(db:Session,form_data:UpdateFactoryProduct,id):
         query.name=form_data.name
         query.is_returnable= form_data.is_returnable
         query.validity=form_data.validity
+        query.temperature = form_data.temperature
         db.commit()
         db.refresh(query)
 
