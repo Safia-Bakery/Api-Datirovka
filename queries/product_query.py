@@ -130,7 +130,7 @@ def update_category(db:Session,form_data:product_schema.UpdateCategory):
 
 
 def filter_categories(db:Session,name,status,id,user_id):
-    item = db.query(products.Categories)
+    item = db.query(products.Categories).join(products.Products)
     if name is not None:
         item = item.filter(products.Categories.name.ilike(f"%{name}%"))   
     if status is not None:
@@ -138,10 +138,7 @@ def filter_categories(db:Session,name,status,id,user_id):
     if id is not None:
         item = item.filter(products.Categories.id == id)
     if user_id !=14:
-        print(user_id)
-        item = item.join(products.Categories.user_cat)
-        item = item.filter(
-            products.UserCategoryRelations==user_id)
+        item = item.join(products.Categories.user_cat).filter(products.UserCategoryRelations.user_id==user_id)
     return item.all()
 
 
@@ -159,7 +156,7 @@ def filter_categories_v2_factory(db:Session,name,status,id):
 
 
 
-def get_all_active_categories(db:Session,name,current_user_id):
+def sget_all_active_categories(db:Session,name,current_user_id):
 
     item = db.query(products.Categories).join(products.Products)
 
