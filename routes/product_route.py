@@ -39,7 +39,7 @@ T = TypeVar("T")
 
 custompage = CustomizedPage[
     Page[T],
-    UseParamsFields(size=50,max_size=300)
+    UseParamsFields(size=200)
 ]
 
 
