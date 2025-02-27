@@ -1,8 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from fastapi_pagination.customization import CustomizedPage, UseParamsFields
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
-from fastapi_pagination import paginate, Page, add_pagination
+from fastapi_pagination import paginate, Page, add_pagination, Params
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from typing import Optional, TypeVar
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
@@ -39,7 +39,7 @@ T = TypeVar("T")
 
 custompage = CustomizedPage[
     Page[T],
-    UseParamsFields(size=200)
+    UseParamsFields(size=Query(50, ge=1, le=300))
 ]
 
 
