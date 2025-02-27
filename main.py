@@ -4,13 +4,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from fastapi.responses import HTMLResponse
 from fastapi import Depends, FastAPI, HTTPException,UploadFile,File,Form,Header,Request,status
-from typing import Optional
+from typing import Optional, TypeVar
 
-from fastapi_pagination import paginate,Page,add_pagination
+from fastapi_pagination import paginate,Page,add_pagination,Params
+from fastapi_pagination.customization import CustomizedPage, UseParamsFields
 from fastapi.staticfiles import StaticFiles
 from models.user import Base
 from database import engine
 from routes import user_route,product_route
+from fastapi_pagination import set_page
+
+
+T = TypeVar("T")
+
+
+custompage = CustomizedPage[
+    Page[T],
+    UseParamsFields(size=1000)
+]
+
+
 
 app = FastAPI()
 app.title = "Safia FastApi App"
@@ -36,7 +49,7 @@ app.add_middleware(
 @app.get("/", tags=["Home"])
 def message():
     """message get method"""
-    return HTMLResponse("<h1>Fuck of man!</h1>")
+    return HTMLResponse("<h1>Fuck off man!</h1>")
 
 
 
