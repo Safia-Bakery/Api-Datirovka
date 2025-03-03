@@ -138,7 +138,6 @@ def filter_categories(db:Session,name,status,id,user_id):
     if id is not None:
         item = item.filter(products.Categories.id == id)
     if user_id !=14:
-        item = item.join(products.Products)
         item = item.join(products.Categories.user_cat).filter(products.UserCategoryRelations.user_id==user_id)
     return item.all()
 
