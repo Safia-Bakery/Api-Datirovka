@@ -102,7 +102,7 @@ def filter_products(db:Session,name,type,id,category_id):
         item = item.filter(products.Products.id == id)
     if category_id is not None:
         item = item.filter(products.Products.category_id == category_id)
-    item = item.filter(products.Products.status==1)
+    item = item.filter(products.Products.category_id.isnot(None))
     return item.all()
 
 
